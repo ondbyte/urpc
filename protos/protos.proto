@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package kvstore;
+
+option go_package = "github.com/ondbyte/urpc/protos";
+
+// The request message for setting a key
+message SetRequest {
+  string key = 1;
+  string value = 2;
+}
+
+// The response message for setting a key
+message SetResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// The request message for getting a key
+message GetRequest {
+  string key = 1;
+}
+
+// The response message for getting a key
+message GetResponse {
+  string value = 1;
+  bool found = 2;
+}
+
+// The key-value store service
+service KVStore {
+  rpc Set(SetRequest) returns (SetResponse);
+  rpc Get(GetRequest) returns (GetResponse);
+}
