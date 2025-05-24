@@ -13,7 +13,7 @@ import (
 )
 
 func TestGRPCServerUnixSocket(t *testing.T) {
-	socketPath := "/tmp/test_grpc.sock"
+	socketPath := urpc.GetSocketPath()
 
 	go urpc.StartGRPCServer(socketPath)
 
@@ -24,7 +24,7 @@ func TestGRPCServerUnixSocket(t *testing.T) {
 	}
 	// Dial using the Unix socket
 	conn, err := grpc.NewClient(
-		"unix://"+socketPath,
+		"unix:",
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 		grpc.WithContextDialer(dialer),
 	)

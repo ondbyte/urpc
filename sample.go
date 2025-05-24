@@ -5,6 +5,7 @@ import (
 	"log"
 	"net"
 	"os"
+	"runtime"
 
 	"github.com/ondbyte/urpc/protos"
 	"google.golang.org/grpc"
@@ -44,4 +45,12 @@ func StartGRPCServer(socketPath string) {
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
+}
+
+func GetSocketPath() string {
+	if runtime.GOOS == "windows" {
+		// ensure path is absolute and short
+		return os.TempDir() + "\\grpc_test.sock"
+	}
+	return "/tmp/grpc_test.sock"
 }
